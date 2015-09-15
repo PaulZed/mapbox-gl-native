@@ -206,7 +206,7 @@ NAN_METHOD(NodeMap::Render) {
 }
 
 void NodeMap::startRender(std::unique_ptr<NodeMap::RenderOptions> options) {
-    view.resize(options->width, options->height);
+    view->resize(options->width, options->height);
     map->update(mbgl::Update::Dimensions);
     map->setClasses(options->classes);
     map->setLatLngZoom(mbgl::LatLng(options->latitude, options->longitude), options->zoom);
@@ -278,9 +278,8 @@ void NodeMap::renderFinished() {
             [](char *, void *hint) {
                 delete reinterpret_cast<const mbgl::StillImage *>(hint);
             },
-            const_cast<mbgl::StillImage *>(img.get())
+            const_cast<mbgl::StillImage *>(img.release())
         ).ToLocalChecked();
-        img.release();
 
         v8::Local<v8::Value> argv[] = {
             Nan::Null(),
@@ -293,6 +292,7 @@ void NodeMap::renderFinished() {
         };
         cb->Call(1, argv);
     }
+    cb.reset();
 }
 
 NAN_METHOD(NodeMap::Release) {
@@ -318,7 +318,9 @@ void NodeMap::release() {
         delete reinterpret_cast<uv_async_t *>(handle);
     });
 
-    map.reset(nullptr);
+    map.reset();
+    view.reset();
+    fs.reset();
 }
 
 
@@ -326,12 +328,12 @@ void NodeMap::release() {
 // Instance
 
 NodeMap::NodeMap(v8::Local<v8::Object> options) :
-    view(sharedDisplay(), [&] {
+    view(std::make_unique<mbgl::HeadlessView>(sharedDisplay(), [&] {
         Nan::HandleScope scope;
         return Nan::Get(options, Nan::New("ratio").ToLocalChecked()).ToLocalChecked()->NumberValue();
-    }()),
-    fs(options),
-    map(std::make_unique<mbgl::Map>(view, fs, mbgl::MapMode::Still)),
+    }())),
+    fs(std::make_unique<NodeFileSource>(options)),
+    map(std::make_unique<mbgl::Map>(*view, *fs, mbgl::MapMode::Still)),
     async(new uv_async_t) {
 
     async->data = this;
