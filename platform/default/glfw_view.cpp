@@ -396,18 +396,32 @@ void GLFWView::onMouseMove(GLFWwindow *window, double x, double y) {
 }
 
 void GLFWView::run() {
+
+    static double bearing = 0.0;
+    static double degreesPerSecond = 90.0;
+    static double previousTime = glfwGetTime();
+
     while (!glfwWindowShouldClose(window)) {
-        glfwWaitEvents();
+        glfwPollEvents();
+
+        const double currentTime = glfwGetTime();
+
+        bearing += degreesPerSecond * (currentTime - previousTime);
+
+        map->setBearing(bearing);
+
         const bool dirty = !clean.test_and_set();
         if (dirty) {
-            const double started = glfwGetTime();
             map->renderSync();
-            report(1000 * (glfwGetTime() - started));
+            report(1000 * (glfwGetTime() - currentTime));
             if (benchmark) {
                 map->update(mbgl::Update::Repaint);
             }
         }
+
+        previousTime = currentTime;
     }
+
 }
 
 float GLFWView::getPixelRatio() const {

@@ -6,8 +6,8 @@
 namespace mbgl {
 
 void VertexArrayObject::Unbind() {
-    if (!gl::BindVertexArray) return;
-    MBGL_CHECK_ERROR(gl::BindVertexArray(0));
+    // if (!gl::BindVertexArray) return;
+    // MBGL_CHECK_ERROR(gl::BindVertexArray(0));
 }
 
 VertexArrayObject::VertexArrayObject() {
@@ -17,17 +17,18 @@ VertexArrayObject::~VertexArrayObject() {
 }
 
 void VertexArrayObject::bindVertexArrayObject(gl::GLObjectStore& glObjectStore) {
-    if (!gl::GenVertexArrays || !gl::BindVertexArray) {
-        static bool reported = false;
-        if (!reported) {
-            Log::Warning(Event::OpenGL, "Not using Vertex Array Objects");
-            reported = true;
-        }
-        return;
-    }
+    ((void)glObjectStore);
+    // if (!gl::GenVertexArrays || !gl::BindVertexArray) {
+    //     static bool reported = false;
+    //     if (!reported) {
+    //         Log::Warning(Event::OpenGL, "Not using Vertex Array Objects");
+    //         reported = true;
+    //     }
+    //     return;
+    // }
 
-    if (!vao) vao.create(glObjectStore);
-    MBGL_CHECK_ERROR(gl::BindVertexArray(vao.getID()));
+    // if (!vao) vao.create(glObjectStore);
+    // MBGL_CHECK_ERROR(gl::BindVertexArray(vao.getID()));
 }
 
 void VertexArrayObject::verifyBinding(Shader &shader, GLuint vertexBuffer, GLuint elementsBuffer,
