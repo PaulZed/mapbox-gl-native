@@ -140,7 +140,160 @@ void GLFWView::onKey(GLFWwindow *window, int key, int /*scancode*/, int action, 
             break;
         case GLFW_KEY_X:
             if (!mods)
-                view->map->resetPosition();
+            {
+                static std::pair<int,int> annotationIDs = {0,0};
+                static const std::pair<int, int> empty={0,0};
+                if(annotationIDs != empty)
+                {
+                    view->map->removeAnnotation(annotationIDs.first);
+                    view->map->removeAnnotation(annotationIDs.second);
+                }
+
+                mbgl::LineString<double> lineString;
+                lineString.push_back({-122.1507, 37.39459});
+                lineString.push_back({-122.15055, 37.3943});
+                lineString.push_back({-122.15076, 37.39423});
+                lineString.push_back({-122.15098, 37.39416});
+                lineString.push_back({-122.15153, 37.39517});
+                lineString.push_back({-122.1516, 37.3953});
+                lineString.push_back({-122.15219, 37.39552});
+                lineString.push_back({-122.15216, 37.39558});
+                lineString.push_back({-122.15207, 37.39564});
+                lineString.push_back({-122.15193, 37.39575});
+                lineString.push_back({-122.15182, 37.39584});
+                lineString.push_back({-122.15181, 37.39588});
+                lineString.push_back({-122.15165, 37.39622});
+                lineString.push_back({-122.15275, 37.39662});
+                lineString.push_back({-122.15307, 37.39672});
+                lineString.push_back({-122.15335, 37.39677});
+                lineString.push_back({-122.15337, 37.39677});
+                lineString.push_back({-122.15364, 37.3968});
+                lineString.push_back({-122.1539, 37.39681});
+                lineString.push_back({-122.15416, 37.39679});
+                lineString.push_back({-122.15442, 37.39676});
+                lineString.push_back({-122.15536, 37.39662});
+                lineString.push_back({-122.15567, 37.39659});
+                lineString.push_back({-122.15597, 37.39659});
+                lineString.push_back({-122.15628, 37.39661});
+                lineString.push_back({-122.15661, 37.39668});
+                lineString.push_back({-122.15692, 37.39678});
+                lineString.push_back({-122.15718, 37.39691});
+                lineString.push_back({-122.15742, 37.39706});
+                lineString.push_back({-122.1576, 37.3972});
+                lineString.push_back({-122.15783, 37.3974});
+                lineString.push_back({-122.1579, 37.39748});
+                lineString.push_back({-122.15801, 37.3976});
+                lineString.push_back({-122.15897, 37.39706});
+                lineString.push_back({-122.1595, 37.39677});
+                lineString.push_back({-122.15992, 37.39652});
+                lineString.push_back({-122.16018, 37.39636});
+                lineString.push_back({-122.16039, 37.39619});
+                lineString.push_back({-122.16057, 37.39605});
+                lineString.push_back({-122.16071, 37.39589});
+                lineString.push_back({-122.16084, 37.39572});
+                lineString.push_back({-122.16099, 37.39548});
+                lineString.push_back({-122.16109, 37.39524});
+                lineString.push_back({-122.16128, 37.39463});
+                lineString.push_back({-122.16138, 37.39438});
+                lineString.push_back({-122.16151, 37.39417});
+                lineString.push_back({-122.16167, 37.39397});
+                lineString.push_back({-122.16179, 37.39382});
+                lineString.push_back({-122.16191, 37.39372});
+                lineString.push_back({-122.16221, 37.39347});
+                lineString.push_back({-122.16238, 37.39333});
+                lineString.push_back({-122.1625, 37.39319});
+                lineString.push_back({-122.16264, 37.39299});
+                lineString.push_back({-122.16271, 37.39287});
+                lineString.push_back({-122.16278, 37.39272});
+                lineString.push_back({-122.16285, 37.39258});
+                lineString.push_back({-122.1629, 37.39243});
+                lineString.push_back({-122.16292, 37.39233});
+                lineString.push_back({-122.16299, 37.39201});
+                lineString.push_back({-122.16301, 37.39195});
+                lineString.push_back({-122.16319, 37.39115});
+                lineString.push_back({-122.16327, 37.39079});
+                lineString.push_back({-122.16361, 37.38948});
+                lineString.push_back({-122.16359, 37.38937});
+                lineString.push_back({-122.16364, 37.38914});
+                lineString.push_back({-122.16374, 37.38864});
+                lineString.push_back({-122.16381, 37.38832});
+                lineString.push_back({-122.16385, 37.38818});
+                lineString.push_back({-122.16387, 37.38806});
+                lineString.push_back({-122.16392, 37.38781});
+                lineString.push_back({-122.16395, 37.38744});
+                lineString.push_back({-122.16412, 37.38701});
+                lineString.push_back({-122.1645, 37.38653});
+                lineString.push_back({-122.16486, 37.38616});
+                lineString.push_back({-122.16516, 37.38581});
+                lineString.push_back({-122.1653, 37.38566});
+                lineString.push_back({-122.1654, 37.38545});
+                lineString.push_back({-122.16565, 37.38491});
+                lineString.push_back({-122.16573, 37.3849});
+                lineString.push_back({-122.16737, 37.38496});
+                lineString.push_back({-122.16832, 37.38502});
+                lineString.push_back({-122.16924, 37.38524});
+                lineString.push_back({-122.16983, 37.38546});
+                lineString.push_back({-122.17026, 37.38564});
+                lineString.push_back({-122.17108, 37.38597});
+                lineString.push_back({-122.17226, 37.38631});
+                lineString.push_back({-122.17226, 37.38631});
+                lineString.push_back({-122.17393, 37.38679});
+                lineString.push_back({-122.17478, 37.38689});
+                lineString.push_back({-122.17644, 37.38706});
+                lineString.push_back({-122.17833, 37.38678});
+                lineString.push_back({-122.17853, 37.38674});
+                lineString.push_back({-122.17872, 37.38664});
+                lineString.push_back({-122.17885, 37.38652});
+                lineString.push_back({-122.17985, 37.38569});
+                lineString.push_back({-122.18025, 37.38545});
+                lineString.push_back({-122.18053, 37.38514});
+                lineString.push_back({-122.18066, 37.38498});
+                lineString.push_back({-122.18092, 37.38458});
+                lineString.push_back({-122.18108, 37.38418});
+                lineString.push_back({-122.18127, 37.38314});
+                lineString.push_back({-122.18154, 37.38263});
+                lineString.push_back({-122.18166, 37.38207});
+                lineString.push_back({-122.18174, 37.38168});
+                lineString.push_back({-122.18181, 37.38143});
+                lineString.push_back({-122.18202, 37.38122});
+                lineString.push_back({-122.18229, 37.38107});
+                lineString.push_back({-122.18246, 37.38101});
+                lineString.push_back({-122.18253, 37.38099});
+                lineString.push_back({-122.18384, 37.38099});
+                lineString.push_back({-122.1841, 37.38105});
+                lineString.push_back({-122.18429, 37.38116});
+                lineString.push_back({-122.18447, 37.38138});
+                lineString.push_back({-122.18454, 37.38161});
+                lineString.push_back({-122.18457, 37.38193});
+                lineString.push_back({-122.18463, 37.38208});
+                lineString.push_back({-122.18473, 37.38219});
+                lineString.push_back({-122.18509, 37.38239});
+                lineString.push_back({-122.18553, 37.38272});
+                lineString.push_back({-122.18581, 37.38299});
+                lineString.push_back({-122.18595, 37.38313});
+                lineString.push_back({-122.18647, 37.38378});
+                lineString.push_back({-122.18674, 37.38398});
+                lineString.push_back({-122.18715, 37.38423});
+                lineString.push_back({-122.18751, 37.38451});
+                lineString.push_back({-122.18787, 37.38471});
+                lineString.push_back({-122.18816, 37.38476});
+                lineString.push_back({-122.18938, 37.38479});
+                lineString.push_back({-122.18961, 37.38475});
+                lineString.push_back({-122.19025, 37.38437});
+                lineString.push_back({-122.1922, 37.38332});
+                lineString.push_back({-122.19247, 37.38321});
+                lineString.push_back({-122.19284, 37.38305});
+                lineString.push_back({-122.19322, 37.38285});
+                lineString.push_back({-122.19325, 37.3828});
+                lineString.push_back({-122.19345, 37.38254});
+                lineString.push_back({-122.1938, 37.3824});
+                lineString.push_back({-122.19433, 37.38194});
+                lineString.push_back({-122.19457, 37.38167});
+                lineString.push_back({-122.19481, 37.38133});
+
+                annotationIDs = {view->map->addAnnotation(mbgl::StyleSourcedAnnotation { lineString, std::string("route-bg") }),
+                                 view->map->addAnnotation(mbgl::StyleSourcedAnnotation { lineString, std::string("route") })};
+            }
             break;
         case GLFW_KEY_S:
             if (view->changeStyleCallback)
@@ -162,10 +315,12 @@ void GLFWView::onKey(GLFWwindow *window, int key, int /*scancode*/, int action, 
             if (debug & mbgl::MapDebugOptions::StencilClip) {
                 debug &= ~mbgl::MapDebugOptions::StencilClip;
                 debug |= mbgl::MapDebugOptions::DepthBuffer;
+                printf("Depth debug\n");
             } else if (debug & mbgl::MapDebugOptions::DepthBuffer) {
                 debug &= ~mbgl::MapDebugOptions::DepthBuffer;
             } else {
                 debug |= mbgl::MapDebugOptions::StencilClip;
+                printf("Stencil Clip Debug\n");
             }
             view->map->setDebug(debug);
         } break;

@@ -133,17 +133,18 @@ int main(int argc, char *argv[]) {
     }
 
     view->setChangeStyleCallback([&map] () {
-        static uint8_t currentStyleIndex;
+//        static uint8_t currentStyleIndex;
+//
+//        if (++currentStyleIndex == mbgl::util::default_styles::numOrderedStyles) {
+//            currentStyleIndex = 0;
+//        }
+//
+//        mbgl::util::default_styles::DefaultStyle newStyle = mbgl::util::default_styles::orderedStyles[currentStyleIndex];
+        std::string styleURL = "mapbox://styles/teslamotors/cipsmqvc40000bpmc9f2xb644";
+        map.setStyleURL(styleURL);
+        view->setWindowTitle(styleURL);
 
-        if (++currentStyleIndex == mbgl::util::default_styles::numOrderedStyles) {
-            currentStyleIndex = 0;
-        }
-
-        mbgl::util::default_styles::DefaultStyle newStyle = mbgl::util::default_styles::orderedStyles[currentStyleIndex];
-        map.setStyleURL(newStyle.url);
-        view->setWindowTitle(newStyle.name);
-
-        mbgl::Log::Info(mbgl::Event::Setup, "Changed style to: %s", newStyle.name);
+        mbgl::Log::Info(mbgl::Event::Setup, "Changed style to: %s", styleURL.c_str());
     });
 
     // Load style

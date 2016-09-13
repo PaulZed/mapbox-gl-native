@@ -19,7 +19,8 @@ MapWindow::MapWindow(const QMapboxGLSettings &settings)
     connect(&m_map, SIGNAL(needsRendering()), this, SLOT(updateGL()));
 
     // Set default location to Helsinki.
-    m_map.setCoordinateZoom(QMapbox::Coordinate(60.170448, 24.942046), 14);
+    m_map.setCoordinateZoom(QMapbox::Coordinate(37.3946504, -122.1505697), 14);
+//    m_map.setCoordinateZoom(QMapbox::Coordinate(-122.1505697, 37.3946504), 14);
 
     changeStyle();
 
@@ -55,16 +56,19 @@ void MapWindow::animationValueChanged()
 
 void MapWindow::changeStyle()
 {
-    static uint8_t currentStyleIndex;
-
-    auto& styles = QMapbox::defaultStyles();
-
-    m_map.setStyleUrl(styles[currentStyleIndex].first);
-    setWindowTitle(QString("Mapbox GL: ") + styles[currentStyleIndex].second);
-
-    if (++currentStyleIndex == styles.size()) {
-        currentStyleIndex = 0;
-    }
+//    static uint8_t currentStyleIndex;
+//
+//    auto& styles = QMapbox::defaultStyles();
+//
+//    m_map.setStyleURL(styles[currentStyleIndex].first);
+//    setWindowTitle(QString("Mapbox GL: ") + styles[currentStyleIndex].second);
+//
+//    if (++currentStyleIndex == styles.size()) {
+//        currentStyleIndex = 0;
+//    }
+    QString styleUrl("mapbox://styles/teslamotors/cipsmqvc40000bpmc9f2xb644");
+    m_map.setStyleUrl(styleUrl);
+    setWindowTitle(QString("Mapbox GL: ") + styleUrl);
 }
 
 void MapWindow::keyPressEvent(QKeyEvent *ev)
@@ -158,7 +162,7 @@ void MapWindow::mouseMoveEvent(QMouseEvent *ev)
             m_map.moveBy(delta);
         } else if (ev->buttons() == Qt::RightButton) {
 #if QT_VERSION < 0x050000
-            m_map.rotateBy(m_lastPos, ev->posF());
+            m_map.setPitch(m_map.pitch() - delta.y() / 2.0);
 #else
             m_map.rotateBy(m_lastPos, ev->localPos());
 #endif
